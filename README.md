@@ -43,6 +43,15 @@ A Python application for managing and searching digital photo metadata.
    pip install -r requirements.txt
    ```
 
+## Testing
+
+### Running Unit Tests
+
+To run the test suite:
+```sh
+pytest tests/ -v
+```
+
 ## Usage
 
 ### Getting Help
