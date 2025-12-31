@@ -1,6 +1,4 @@
 import argparse
-import sys
-from typing import Optional
 
 from ..models.image_metadata import ImageMetadata
 from ..models.search_criteria import SearchCriteria
