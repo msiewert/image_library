@@ -1,19 +1,22 @@
-class ImageMetadata:
-    def __init__(self, **kwargs):
-        self.data = kwargs
-        self.tags = self._parse_tags(kwargs.get("User Tags", ""))
+from typing import Any, Optional
 
-    def _parse_tags(self, tag_string):
+
+class ImageMetadata:
+    def __init__(self, **kwargs: Any) -> None:
+        self.data: dict[str, Any] = kwargs
+        self.tags: list[str] = self._parse_tags(kwargs.get("User Tags", ""))
+
+    def _parse_tags(self, tag_string: str) -> list[str]:
         if not tag_string:
             return []
         # Remove quotes and split by comma
         cleaned = tag_string.strip('"').replace('""', '"')
         return [tag.strip() for tag in cleaned.split(",") if tag.strip()]
 
-    def get(self, field, default=None):
+    def get(self, field: str, default: Any = None) -> Any:
         return self.data.get(field, default)
 
-    def matches_tag_value(self, field, operator, value):
+    def matches_tag_value(self, field: str, operator: str, value: str) -> bool:
         field_value = self.get(field)
         if field_value is None:
             return False
@@ -32,10 +35,10 @@ class ImageMetadata:
                 return False
         return False
 
-    def has_tag(self, tag):
+    def has_tag(self, tag: str) -> bool:
         return tag.lower() in [t.lower() for t in self.tags]
 
-    def get_coordinates(self):
+    def get_coordinates(self) -> Optional[tuple[float, float]]:
         coord_str = self.get("(Center) Coordinate", "")
         if not coord_str:
             return None
@@ -60,7 +63,7 @@ class ImageMetadata:
         except:
             return None
 
-    def _parse_dms(self, dms_str):
+    def _parse_dms(self, dms_str: str) -> float:
         # Simple DMS parser for formats like "36° 00' N"
         dms_str = dms_str.strip()
         if "N" in dms_str or "S" in dms_str:

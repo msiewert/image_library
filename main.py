@@ -10,7 +10,7 @@ from src.services.loader import ImageLibraryLoader
 from src.services.search_engine import SearchEngine
 
 
-def main():
+def main() -> None:
     cli = CommandLineInterface()
     args = cli.parse_args()
 

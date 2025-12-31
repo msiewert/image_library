@@ -1,14 +1,16 @@
 import argparse
 import sys
+from typing import Optional
 
+from ..models.image_metadata import ImageMetadata
 from ..models.search_criteria import SearchCriteria
 
 
 class CommandLineInterface:
-    def __init__(self):
+    def __init__(self) -> None:
         self.parser = self._create_parser()
 
-    def _create_parser(self):
+    def _create_parser(self) -> argparse.ArgumentParser:
         parser = argparse.ArgumentParser(description="Search image library")
         parser.add_argument(
             "--csv",
@@ -25,16 +27,17 @@ class CommandLineInterface:
             "--polygon", help='Polygon coordinates as "lat1,lon1 lat2,lon2 lat3,lon3"'
         )
         parser.add_argument(
-            "--verbose", "-v",
+            "--verbose",
+            "-v",
             action="store_true",
-            help="Show detailed results for each image found"
+            help="Show detailed results for each image found",
         )
         return parser
 
-    def parse_args(self):
+    def parse_args(self) -> argparse.Namespace:
         return self.parser.parse_args()
 
-    def create_search_criteria(self, args):
+    def create_search_criteria(self, args: argparse.Namespace) -> SearchCriteria:
         criteria = SearchCriteria()
 
         # Parse tag criteria
@@ -55,7 +58,7 @@ class CommandLineInterface:
 
         return criteria
 
-    def _parse_tag_expression(self, expr):
+    def _parse_tag_expression(self, expr: str) -> tuple[str, str, str]:
         if ">=" in expr:
             field, value = expr.split(">=", 1)
             return field.strip(), ">=", value.strip()
@@ -74,14 +77,16 @@ class CommandLineInterface:
         else:
             raise ValueError(f"Invalid tag expression: {expr}")
 
-    def _parse_polygon(self, polygon_str):
+    def _parse_polygon(self, polygon_str: str) -> list[tuple[float, float]]:
         coords = []
         for coord_pair in polygon_str.split():
             lat, lon = coord_pair.split(",")
             coords.append((float(lat), float(lon)))
         return coords
 
-    def display_results(self, results, total_loaded, verbose=False):
+    def display_results(
+        self, results: list[ImageMetadata], total_loaded: int, verbose: bool = False
+    ) -> None:
         if verbose:
             if not results:
                 print("No images found matching the criteria.")
@@ -102,7 +107,7 @@ class CommandLineInterface:
                     if image.tags:
                         print(f"  Tags: {', '.join(image.tags)}")
                     print()
-        
+
         # Always show summary at the end
         print(f"\nSummary:")
         print(f"Records loaded: {total_loaded}")

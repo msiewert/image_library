@@ -4,11 +4,11 @@ from ..models.image_metadata import ImageMetadata
 
 
 class ImageLibraryLoader:
-    def __init__(self, csv_path):
+    def __init__(self, csv_path: str) -> None:
         self.csv_path = csv_path
-        self.images = []
+        self.images: list[ImageMetadata] = []
 
-    def load(self):
+    def load(self) -> list[ImageMetadata]:
         with open(self.csv_path, "r", encoding="utf-8-sig") as file:
             reader = csv.DictReader(file)
             for row in reader:

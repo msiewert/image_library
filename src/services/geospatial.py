@@ -1,4 +1,6 @@
-def point_in_polygon(point, polygon):
+def point_in_polygon(
+    point: tuple[float, float], polygon: list[tuple[float, float]]
+) -> bool:
     """Check if a point is inside a polygon using ray casting algorithm"""
     x, y = point
     n = len(polygon)
