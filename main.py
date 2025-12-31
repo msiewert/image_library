@@ -18,7 +18,6 @@ def main():
         # Load image library
         loader = ImageLibraryLoader(args.csv)
         images = loader.load()
-        print(f"Loaded {len(images)} images from {args.csv}")
 
         # Create search criteria
         criteria = cli.create_search_criteria(args)
@@ -28,7 +27,7 @@ def main():
         results = search_engine.search(criteria)
 
         # Display results
-        cli.display_results(results)
+        cli.display_results(results, len(images), args.verbose)
 
     except FileNotFoundError:
         print(f"Error: CSV file '{args.csv}' not found.")

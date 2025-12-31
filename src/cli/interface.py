@@ -24,6 +24,11 @@ class CommandLineInterface:
         parser.add_argument(
             "--polygon", help='Polygon coordinates as "lat1,lon1 lat2,lon2 lat3,lon3"'
         )
+        parser.add_argument(
+            "--verbose", "-v",
+            action="store_true",
+            help="Show detailed results for each image found"
+        )
         return parser
 
     def parse_args(self):
@@ -76,24 +81,29 @@ class CommandLineInterface:
             coords.append((float(lat), float(lon)))
         return coords
 
-    def display_results(self, results):
-        if not results:
-            print("No images found matching the criteria.")
-            return
+    def display_results(self, results, total_loaded, verbose=False):
+        if verbose:
+            if not results:
+                print("No images found matching the criteria.")
+            else:
+                print(f"Found {len(results)} image(s):")
+                for image in results:
+                    filename = image.get("Filename", "Unknown")
+                    image_type = image.get("Type", "Unknown")
+                    size = image.get("Image Size (MB)", "Unknown")
+                    print(f"- {filename} ({image_type}, {size}MB)")
 
-        print(f"Found {len(results)} image(s):")
-        for image in results:
-            filename = image.get("Filename", "Unknown")
-            image_type = image.get("Type", "Unknown")
-            size = image.get("Image Size (MB)", "Unknown")
-            print(f"- {filename} ({image_type}, {size}MB)")
+                    # Show coordinates if available
+                    coords = image.get_coordinates()
+                    if coords:
+                        print(f"  Coordinates: {coords[0]:.5f}, {coords[1]:.5f}")
 
-            # Show coordinates if available
-            coords = image.get_coordinates()
-            if coords:
-                print(f"  Coordinates: {coords[0]:.5f}, {coords[1]:.5f}")
-
-            # Show user tags if available
-            if image.tags:
-                print(f"  Tags: {', '.join(image.tags)}")
-            print()
+                    # Show user tags if available
+                    if image.tags:
+                        print(f"  Tags: {', '.join(image.tags)}")
+                    print()
+        
+        # Always show summary at the end
+        print(f"\nSummary:")
+        print(f"Records loaded: {total_loaded}")
+        print(f"Records found: {len(results)}")

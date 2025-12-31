@@ -1,10 +1,10 @@
 # Image Library Management System
 
-A Python application for managing and searching digital photo metadata, similar to Adobe Lightroom's organizational capabilities.
+A Python application for managing and searching digital photo metadata.
 
 ## Features
 
-- Load image metadata from CSV files
+- Load image metadata from CSV file
 - Search by tag-value pairs with comparison operators (=, >, <)
 - Search by user tags
 - Geospatial search within polygon boundaries
@@ -45,16 +45,23 @@ A Python application for managing and searching digital photo metadata, similar 
 
 ## Usage
 
+### Getting Help
+
+To see all available options and usage information:
+```sh
+python main.py --help
+```
+
 ### Basic Search Examples
 
-1. **Search for favorite images with high DPI:**
+1. **Search for favorite images with high DPI (summary only):**
    ```sh
    python main.py --tag "Favorite=Yes" --tag "DPI>200"
    ```
 
-2. **Search by user tags:**
+2. **Search by user tags with detailed results:**
    ```sh
-   python main.py --user-tag "Urban" --user-tag "Dusk"
+   python main.py --user-tag "Urban" --user-tag "Dusk" --verbose
    ```
 
 3. **Search within a geographic polygon:**
@@ -73,6 +80,7 @@ A Python application for managing and searching digital photo metadata, similar 
 - `--tag EXPR`: Add tag criteria (format: field=value, field>value, field<value)
 - `--user-tag TAG`: Match specific user tags
 - `--polygon COORDS`: Define search polygon (format: "lat1,lon1 lat2,lon2 lat3,lon3")
+- `--verbose, -v`: Show detailed results for each image found (default: summary only)
 
 ### Supported Operators
 
