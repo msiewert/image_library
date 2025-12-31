@@ -116,6 +116,14 @@ The system follows a modular architecture:
 - Handles variable metadata fields per image
 - Parses comma-separated user tags from CSV
 
+### Polygon Search Requirements
+
+- **Coordinate Order**: Polygon coordinates must be provided in sequential order (clockwise or counter-clockwise)
+- **Format**: Each coordinate pair as "latitude,longitude" separated by spaces
+- **Minimum Points**: At least 3 coordinate pairs required to form a polygon
+- **Closure**: The polygon is automatically closed (last point connects back to first point)
+- **Example**: `"52.0,-115.0 52.0,-113.0 50.0,-113.0 50.0,-115.0"` creates a rectangle
+
 ## Commercial Considerations
 
 For a production system, I would add:
@@ -128,3 +136,14 @@ For a production system, I would add:
 - Logging and monitoring
 - REST API for web interface integration
 - Batch processing capabilities for large imports
+
+### Advanced File Loading
+
+If opting for a CSV or other file format over a database, additional optimizations could include:
+
+- **Streaming processing**: Iterator-based loading to maintain constant memory usage
+- **Parallel processing**: Multi-threaded CSV parsing for faster loading
+- **Chunked processing**: Process data in configurable batch sizes
+- **Progress indicators**: Real-time loading progress for large datasets
+- **File validation**: Schema validation and data quality checks during loading
+- **Incremental loading**: Only load new/changed records since last import
