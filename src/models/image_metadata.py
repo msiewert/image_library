@@ -23,6 +23,16 @@ class ImageMetadata:
 
         if operator == "=":
             return str(field_value).lower() == str(value).lower()
+        elif operator == ">=":
+            try:
+                return float(field_value) >= float(value)
+            except (ValueError, TypeError):
+                return False
+        elif operator == "<=":
+            try:
+                return float(field_value) <= float(value)
+            except (ValueError, TypeError):
+                return False
         elif operator == ">":
             try:
                 return float(field_value) > float(value)

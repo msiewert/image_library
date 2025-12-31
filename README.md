@@ -59,17 +59,27 @@ python main.py --help
    python main.py --tag "Favorite=Yes" --tag "DPI>200"
    ```
 
-2. **Search by user tags with detailed results:**
+2. **Search for large images with specific size criteria:**
+   ```sh
+   python main.py --tag "Image Size (MB)>=20" --tag "Image X<4000"
+   ```
+
+3. **Search by user tags with detailed results:**
    ```sh
    python main.py --user-tag "Urban" --user-tag "Dusk" --verbose
    ```
 
-3. **Search within a geographic polygon:**
+4. **Search for medium resolution images:**
+   ```sh
+   python main.py --tag "DPI>=150" --tag "DPI<=600"
+   ```
+
+5. **Search within a geographic polygon:**
    ```sh
    python main.py --polygon "51.129,-114.010 50.742,-113.948 50.748,-113.867"
    ```
 
-4. **Combined search (favorites in Europe with specific coordinates):**
+6. **Combined search (favorites in Europe with specific coordinates):**
    ```sh
    python main.py --tag "Favorite=Yes" --tag "Continent=Europe" --polygon "45.0,0.0 55.0,0.0 55.0,15.0 45.0,15.0"
    ```
@@ -77,7 +87,7 @@ python main.py --help
 ### Command Line Options
 
 - `--csv PATH`: Specify CSV file path (default: image_library.csv)
-- `--tag EXPR`: Add tag criteria (format: field=value, field>value, field<value)
+- `--tag EXPR`: Add tag criteria (format: field=value, field>value, field<value, field>=value, field<=value)
 - `--user-tag TAG`: Match specific user tags
 - `--polygon COORDS`: Define search polygon (format: "lat1,lon1 lat2,lon2 lat3,lon3")
 - `--verbose, -v`: Show detailed results for each image found (default: summary only)
@@ -87,6 +97,8 @@ python main.py --help
 - `=`: Exact match (case-insensitive for strings)
 - `>`: Greater than (for numeric values)
 - `<`: Less than (for numeric values)
+- `>=`: Greater than or equal to (for numeric values)
+- `<=`: Less than or equal to (for numeric values)
 
 ## Architecture
 
